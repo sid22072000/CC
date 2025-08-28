@@ -1,59 +1,33 @@
 # Crypto Portfolio Dashboard
 
-A responsive and interactive crypto portfolio dashboard built with React.js, Redux Toolkit, and Vite.
-
-## Features
-
-- Dashboard: View cryptocurrencies with name, symbol, logo, price, 24h change, and market cap
-- Search & Filter: Search by name/symbol, filter by top coins and price change
-- Portfolio: Track your holdings, total value, and 24h change
-- Real-Time Updates: Auto-refresh prices every 30 seconds
-- State Management: All state managed in Redux Toolkit
-- Routing: /dashboard and /portfolio routes
-- Styling: Material UI
-- Error Handling: Centralized in Redux, displayed via toast/alert
-- Performance: Optimized state and rendering
-- Forms: Portfolio inputs via react-hook-form
-- Bonus: Theme toggle, price trend chart, unit tests, deployment
-
 ## Setup Instructions
 
-1. Clone the repo
+1. Clone the repository
 2. Run `npm install`
-3. Run `npm run dev` to start the app
+3. Run `npm run dev` to start the development server
+4. Run `npm run test` to execute unit tests
 
 ## Redux Architecture
 
-- All state (coins, search/filter, portfolio, theme) is managed in Redux slices
-- API calls use `createAsyncThunk` and are dispatched from Redux, not components
-- State is normalized for coins (object keyed by ID)
+The application uses Redux Toolkit for all state management, ensuring a predictable and scalable architecture. Key points:
 
-## API Usage
+- **Slices**: Each domain (coins, portfolio, search, theme) has its own slice in `src/state/[slice]/slice.js`, containing state, reducers, and actions.
+- **Selectors**: All selectors are defined in `src/state/[slice]/selectors.js` for easy and efficient state access throughout the app.
+- **Thunks**: Async logic (API calls) is handled in `src/state/[slice]/thunk.js` using `createAsyncThunk`. Components never call APIs directly; they dispatch thunks.
+- **State Normalization**: Coin data is stored as an object keyed by coin ID for fast lookup and efficient updates.
+- **Single Source of Truth**: All UI and business logic reads from Redux state, ensuring consistency and easy debugging.
+- **Testing**: Slices and selectors are covered by unit tests in `src/state/__tests__`.
 
-- Coin data fetched from [CoinGecko API](https://docs.coingecko.com/v3.0.1/)
-- All API logic is in Redux async thunks
+## API Usage Details
 
-## Commit Guidelines
+The app integrates with the [CoinGecko API](https://docs.coingecko.com/v3.0.1/) to fetch real-time cryptocurrency data. Details:
 
-- Use feature-based commits (avoid a single "final commit")
-
-## Deployment
-
-- (Optional) Deploy to Vercel or Netlify and add your live link here
+- **Endpoints Used**: The Redux thunks fetch coin market data, prices, and metadata from CoinGecko's `/coins/markets` endpoint.
+- **Data Flow**: Thunks dispatch actions to update Redux state with the latest coin data, loading status, and errors.
+- **Auto-Refresh**: Coin data is automatically refreshed every 30 seconds via a global interval, keeping the dashboard and portfolio up-to-date.
+- **Error Handling**: API errors are caught in thunks and stored in Redux state, allowing the UI to display alerts or fallback states.
+- **No Direct API Calls in Components**: All API logic is centralized in Redux thunks for maintainability and testability.
 
 ---
 
 For more details, see the code and comments in each slice/component.
-
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import { useEffect, useCallback, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCoins } from "../state/coins/thunk";
 import { setQuery, setFilter } from "../state/search/slice";
@@ -35,7 +35,7 @@ import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-const DashboardPage = React.memo(() => {
+const DashboardPage = memo(() => {
   const dispatch = useDispatch();
   const coins = useSelector(selectCoins);
   const loading = useSelector(selectCoinsLoading);

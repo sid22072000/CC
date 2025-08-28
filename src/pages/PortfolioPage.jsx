@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setHolding, removeHolding } from "../state/portfolio/slice";
 import { setTheme, toggleTheme } from "../state/theme/slice";
@@ -43,8 +43,8 @@ const PortfolioPage = React.memo(() => {
   const holdings = useSelector(selectHoldings);
   const themeMode = useSelector(selectThemeMode);
 
-  const { register, handleSubmit, reset } = useForm();
-  const [selectedCoin, setSelectedCoin] = React.useState("");
+  const { register, handleSubmit, reset, watch } = useForm();
+  const [selectedCoin, setSelectedCoin] = useState("");
 
   // Calculate total value and 24h change
   const { totalValue, totalChange } = useMemo(() => {
@@ -207,7 +207,12 @@ const PortfolioPage = React.memo(() => {
                 })}
                 sx={{ flex: 1 }}
               />
-              <Button type="submit" variant="contained" sx={{ height: 56 }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ height: 56 }}
+                disabled={Number(watch("amount")) <= 0}
+              >
                 Add
               </Button>
             </form>

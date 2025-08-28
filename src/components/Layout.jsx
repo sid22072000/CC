@@ -234,20 +234,9 @@ export const Footer = () => {
             color: themeMode === "dark" ? "#e3e3e3" : "text.secondary",
           }}
         >
-          &copy; {new Date().getFullYear()} Crypto Portfolio Dashboard &mdash;
-          Powered by CoinGecko API
+          &copy; {new Date().getFullYear()} Crypto Portfolio Dashboard —
+          Siddhant
         </Typography>
-        <MuiLink
-          href="https://docs.coingecko.com/v3.0.1/"
-          target="_blank"
-          rel="noopener"
-          sx={{
-            ml: 1,
-            color: themeMode === "dark" ? "#90caf9" : "#1976d2",
-          }}
-        >
-          API Docs
-        </MuiLink>
       </Container>
     </Box>
   );
